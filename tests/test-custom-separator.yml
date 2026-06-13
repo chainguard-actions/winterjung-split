@@ -1,0 +1,53 @@
+name: Test split with custom separator
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: split
+        uses: .
+        with:
+          msg: "a,b,c,d"
+          seperator: ","
+      - name: Assert length
+        env:
+          ACTUAL: ${{ steps.split.outputs.length }}
+        run: |
+          echo "actual length: $ACTUAL"
+          if [ "$ACTUAL" != "4" ]; then
+            echo "FAIL: expected length '4', got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"
+      - name: Assert first element
+        env:
+          ACTUAL: ${{ steps.split.outputs._0 }}
+        run: |
+          echo "actual _0: $ACTUAL"
+          if [ "$ACTUAL" != "a" ]; then
+            echo "FAIL: expected _0 'a', got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"
+      - name: Assert second element
+        env:
+          ACTUAL: ${{ steps.split.outputs._1 }}
+        run: |
+          echo "actual _1: $ACTUAL"
+          if [ "$ACTUAL" != "b" ]; then
+            echo "FAIL: expected _1 'b', got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"
+      - name: Assert last element
+        env:
+          ACTUAL: ${{ steps.split.outputs._3 }}
+        run: |
+          echo "actual _3: $ACTUAL"
+          if [ "$ACTUAL" != "d" ]; then
+            echo "FAIL: expected _3 'd', got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"

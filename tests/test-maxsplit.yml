@@ -1,0 +1,54 @@
+name: Test split with maxsplit limit
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: split
+        uses: .
+        with:
+          msg: "one two three four five"
+          seperator: " "
+          maxsplit: "2"
+      - name: Assert length is limited by maxsplit
+        env:
+          ACTUAL: ${{ steps.split.outputs.length }}
+        run: |
+          echo "actual length: $ACTUAL"
+          if [ "$ACTUAL" != "3" ]; then
+            echo "FAIL: expected length '3' (maxsplit=2 means 3 parts), got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"
+      - name: Assert first element
+        env:
+          ACTUAL: ${{ steps.split.outputs._0 }}
+        run: |
+          echo "actual _0: $ACTUAL"
+          if [ "$ACTUAL" != "one" ]; then
+            echo "FAIL: expected _0 'one', got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"
+      - name: Assert second element
+        env:
+          ACTUAL: ${{ steps.split.outputs._1 }}
+        run: |
+          echo "actual _1: $ACTUAL"
+          if [ "$ACTUAL" != "two" ]; then
+            echo "FAIL: expected _1 'two', got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"
+      - name: Assert third element contains remainder
+        env:
+          ACTUAL: ${{ steps.split.outputs._2 }}
+        run: |
+          echo "actual _2: $ACTUAL"
+          if [ "$ACTUAL" != "three four five" ]; then
+            echo "FAIL: expected _2 'three four five', got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"
