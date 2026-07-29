@@ -1,16 +1,50 @@
-# winterjung/split
+# Split
 
-Listify input and set outputs with index
+[![Actions Status](https://github.com/jungwinter/split/workflows/ci/badge.svg)](https://github.com/jungwinter/split/actions)
 
-Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/winterjung/split](https://github.com/winterjung/split).
+> ✂️ GitHub action to split string
 
-## Versions
+## Inputs
 
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| v1.0.0 | [`v1.0.0`](https://github.com/chainguard-actions/winterjung-split/tree/v1.0.0) | [`a06151c`](https://github.com/winterjung/split/commit/a06151c0c4302abe2ff379935b302eb3df53436d) |
-| v1.1.0 | [`v1.1.0`](https://github.com/chainguard-actions/winterjung-split/tree/v1.1.0) | [`c185fe9`](https://github.com/winterjung/split/commit/c185fe95439c136a8788b7f700bd5275920d7109) |
-| v2.1.0 | [`v2.1.0`](https://github.com/chainguard-actions/winterjung-split/tree/v2.1.0) | [`7f51d99`](https://github.com/winterjung/split/commit/7f51d99e7cc1f147f6f99be75acf5e641930af88) |
+- `msg`: String to split
+- `separator`: The delimiter to split the string. Default: `' '` (whitespace)
+- `maxsplit`: Maximum number of splits. Default: `-1` (no limit)
+
+## Outputs
+
+- `_0`, `_1`, ..., `_n`: Each result of a splits
+  - According to [metadata syntax of outputs], it has `_` prefix
+  - Currently, support only `100` splits
+- `length`: Length of the splits
+
+## Example
+
+```yaml
+name: split example
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jungwinter/split@v2
+        id: split
+        with:
+          msg: '/release split v1.0.0'
+
+      - name: release package
+        if: steps.split.outputs._0 == '/release'
+        uses: actions/create-release@latest
+        with:
+          release_name: Release ${{ steps.split.outputs._1 }}
+          tag_name: ${{ steps.split.outputs._2 }}
+```
+
+---
+
+[MIT license]
+
+
+[MIT license]: LICENSE
+[metadata syntax of outputs]: https://help.github.com/en/actions/building-actions/metadata-syntax-for-github-actions#outputsoutput_id
 
 ## Privacy
 

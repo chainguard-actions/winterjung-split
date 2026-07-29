@@ -1,0 +1,63 @@
+name: Test split with custom separator
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: split
+        uses: .
+        with:
+          msg: "apple,banana,cherry,date"
+          separator: ","
+      - name: Assert length
+        env:
+          ACTUAL: ${{ steps.split.outputs.length }}
+        run: |
+          echo "actual length: $ACTUAL"
+          if [ "$ACTUAL" != "4" ]; then
+            echo "FAIL: expected length 4, got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"
+      - name: Assert first element
+        env:
+          ACTUAL: ${{ steps.split.outputs._0 }}
+        run: |
+          echo "actual _0: $ACTUAL"
+          if [ "$ACTUAL" != "apple" ]; then
+            echo "FAIL: expected 'apple', got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"
+      - name: Assert second element
+        env:
+          ACTUAL: ${{ steps.split.outputs._1 }}
+        run: |
+          echo "actual _1: $ACTUAL"
+          if [ "$ACTUAL" != "banana" ]; then
+            echo "FAIL: expected 'banana', got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"
+      - name: Assert third element
+        env:
+          ACTUAL: ${{ steps.split.outputs._2 }}
+        run: |
+          echo "actual _2: $ACTUAL"
+          if [ "$ACTUAL" != "cherry" ]; then
+            echo "FAIL: expected 'cherry', got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"
+      - name: Assert fourth element
+        env:
+          ACTUAL: ${{ steps.split.outputs._3 }}
+        run: |
+          echo "actual _3: $ACTUAL"
+          if [ "$ACTUAL" != "date" ]; then
+            echo "FAIL: expected 'date', got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS"

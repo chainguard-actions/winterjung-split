@@ -1,6 +1,11 @@
 {
   "owner": "winterjung",
   "repo": "split",
-  "version": "",
-  "url": "https://github.com/winterjung/split"
+  "version": "v2.1.1-rc1",
+  "commit_sha": "d5c148c702e3aacdf08a98e33407c5af75d71e1e",
+  "url": "https://github.com/winterjung/split",
+  "policy_sha": "d636be7e43ef829af6e853da6b3c7566db9f72fe",
+  "test_policy_sha": "843adf9e4b8f85d0c08b27b9d0b09dd094b54702",
+  "test_agent_version": "2",
+  "harden_agent_version": "2"
 }
