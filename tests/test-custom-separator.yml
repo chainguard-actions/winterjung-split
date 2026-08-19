@@ -9,45 +9,55 @@ jobs:
       - id: split
         uses: .
         with:
-          msg: "one,two,three"
+          msg: "apple,banana,cherry,date"
           seperator: ","
       - name: Assert length
         env:
           ACTUAL: ${{ steps.split.outputs.length }}
         run: |
           echo "actual length: $ACTUAL"
-          if [ "$ACTUAL" != "3" ]; then
-            echo "FAIL: expected length '3', got '$ACTUAL'"
+          if [ "$ACTUAL" != "4" ]; then
+            echo "FAIL: expected length 4, got '$ACTUAL'"
             exit 1
           fi
-          echo "PASS"
+          echo "PASS: length is 4"
       - name: Assert first element
         env:
           ACTUAL: ${{ steps.split.outputs._0 }}
         run: |
           echo "actual _0: $ACTUAL"
-          if [ "$ACTUAL" != "one" ]; then
-            echo "FAIL: expected _0 'one', got '$ACTUAL'"
+          if [ "$ACTUAL" != "apple" ]; then
+            echo "FAIL: expected 'apple', got '$ACTUAL'"
             exit 1
           fi
-          echo "PASS"
+          echo "PASS: _0 is 'apple'"
       - name: Assert second element
         env:
           ACTUAL: ${{ steps.split.outputs._1 }}
         run: |
           echo "actual _1: $ACTUAL"
-          if [ "$ACTUAL" != "two" ]; then
-            echo "FAIL: expected _1 'two', got '$ACTUAL'"
+          if [ "$ACTUAL" != "banana" ]; then
+            echo "FAIL: expected 'banana', got '$ACTUAL'"
             exit 1
           fi
-          echo "PASS"
+          echo "PASS: _1 is 'banana'"
       - name: Assert third element
         env:
           ACTUAL: ${{ steps.split.outputs._2 }}
         run: |
           echo "actual _2: $ACTUAL"
-          if [ "$ACTUAL" != "three" ]; then
-            echo "FAIL: expected _2 'three', got '$ACTUAL'"
+          if [ "$ACTUAL" != "cherry" ]; then
+            echo "FAIL: expected 'cherry', got '$ACTUAL'"
             exit 1
           fi
-          echo "PASS"
+          echo "PASS: _2 is 'cherry'"
+      - name: Assert fourth element
+        env:
+          ACTUAL: ${{ steps.split.outputs._3 }}
+        run: |
+          echo "actual _3: $ACTUAL"
+          if [ "$ACTUAL" != "date" ]; then
+            echo "FAIL: expected 'date', got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS: _3 is 'date'"

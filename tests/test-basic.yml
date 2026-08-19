@@ -1,4 +1,4 @@
-name: Test split with maxsplit limit
+name: Test basic split with default separator
 on:
   workflow_dispatch:
 jobs:
@@ -9,46 +9,44 @@ jobs:
       - id: split
         uses: .
         with:
-          msg: "one two three four five"
-          seperator: " "
-          maxsplit: "2"
+          msg: "hello world foo"
       - name: Assert length
         env:
           ACTUAL: ${{ steps.split.outputs.length }}
         run: |
           echo "actual length: $ACTUAL"
           if [ "$ACTUAL" != "3" ]; then
-            echo "FAIL: expected length 3 (maxsplit=2 means 3 parts), got '$ACTUAL'"
+            echo "FAIL: expected length '3', got '$ACTUAL'"
             exit 1
           fi
-          echo "PASS: length is 3"
+          echo "PASS"
       - name: Assert first element
         env:
           ACTUAL: ${{ steps.split.outputs._0 }}
         run: |
           echo "actual _0: $ACTUAL"
-          if [ "$ACTUAL" != "one" ]; then
-            echo "FAIL: expected 'one', got '$ACTUAL'"
+          if [ "$ACTUAL" != "hello" ]; then
+            echo "FAIL: expected _0 'hello', got '$ACTUAL'"
             exit 1
           fi
-          echo "PASS: _0 is 'one'"
+          echo "PASS"
       - name: Assert second element
         env:
           ACTUAL: ${{ steps.split.outputs._1 }}
         run: |
           echo "actual _1: $ACTUAL"
-          if [ "$ACTUAL" != "two" ]; then
-            echo "FAIL: expected 'two', got '$ACTUAL'"
+          if [ "$ACTUAL" != "world" ]; then
+            echo "FAIL: expected _1 'world', got '$ACTUAL'"
             exit 1
           fi
-          echo "PASS: _1 is 'two'"
-      - name: Assert third element contains remainder
+          echo "PASS"
+      - name: Assert third element
         env:
           ACTUAL: ${{ steps.split.outputs._2 }}
         run: |
           echo "actual _2: $ACTUAL"
-          if [ "$ACTUAL" != "three four five" ]; then
-            echo "FAIL: expected 'three four five' (remainder after maxsplit=2), got '$ACTUAL'"
+          if [ "$ACTUAL" != "foo" ]; then
+            echo "FAIL: expected _2 'foo', got '$ACTUAL'"
             exit 1
           fi
-          echo "PASS: _2 is 'three four five'"
+          echo "PASS"
