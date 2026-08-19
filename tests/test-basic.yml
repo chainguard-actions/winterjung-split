@@ -16,7 +16,7 @@ jobs:
         run: |
           echo "actual length: $ACTUAL"
           if [ "$ACTUAL" != "3" ]; then
-            echo "FAIL: expected length '3', got '$ACTUAL'"
+            echo "FAIL: expected length 3, got '$ACTUAL'"
             exit 1
           fi
           echo "PASS"
@@ -26,7 +26,7 @@ jobs:
         run: |
           echo "actual _0: $ACTUAL"
           if [ "$ACTUAL" != "hello" ]; then
-            echo "FAIL: expected _0 'hello', got '$ACTUAL'"
+            echo "FAIL: expected 'hello', got '$ACTUAL'"
             exit 1
           fi
           echo "PASS"
@@ -36,7 +36,7 @@ jobs:
         run: |
           echo "actual _1: $ACTUAL"
           if [ "$ACTUAL" != "world" ]; then
-            echo "FAIL: expected _1 'world', got '$ACTUAL'"
+            echo "FAIL: expected 'world', got '$ACTUAL'"
             exit 1
           fi
           echo "PASS"
@@ -46,7 +46,7 @@ jobs:
         run: |
           echo "actual _2: $ACTUAL"
           if [ "$ACTUAL" != "foo" ]; then
-            echo "FAIL: expected _2 'foo', got '$ACTUAL'"
+            echo "FAIL: expected 'foo', got '$ACTUAL'"
             exit 1
           fi
           echo "PASS"

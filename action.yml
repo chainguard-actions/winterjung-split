@@ -220,7 +220,7 @@ outputs:
     description: 100th element
 runs:
   using: docker
-  image: docker://winterjung/split@sha256:7ef63197d8c0e3b1997bcee8f6bbc1889b1e61b77528f1af5dc4f6e0128231a5 # v2
+  image: docker://winterjung/split:v2@sha256:7ef63197d8c0e3b1997bcee8f6bbc1889b1e61b77528f1af5dc4f6e0128231a5
   args:
     - ${{ inputs.msg }}
     - ${{ inputs.separator }}

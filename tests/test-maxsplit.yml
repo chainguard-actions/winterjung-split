@@ -9,16 +9,16 @@ jobs:
       - id: split
         uses: .
         with:
-          msg: "a b c d e"
+          msg: "one two three four five"
           separator: " "
           maxsplit: "2"
-      - name: Assert length is limited by maxsplit
+      - name: Assert length
         env:
           ACTUAL: ${{ steps.split.outputs.length }}
         run: |
           echo "actual length: $ACTUAL"
           if [ "$ACTUAL" != "3" ]; then
-            echo "FAIL: expected length '3' (maxsplit=2 means 3 parts), got '$ACTUAL'"
+            echo "FAIL: expected length 3 (maxsplit=2 produces 3 parts), got '$ACTUAL'"
             exit 1
           fi
           echo "PASS"
@@ -27,8 +27,8 @@ jobs:
           ACTUAL: ${{ steps.split.outputs._0 }}
         run: |
           echo "actual _0: $ACTUAL"
-          if [ "$ACTUAL" != "a" ]; then
-            echo "FAIL: expected _0 'a', got '$ACTUAL'"
+          if [ "$ACTUAL" != "one" ]; then
+            echo "FAIL: expected 'one', got '$ACTUAL'"
             exit 1
           fi
           echo "PASS"
@@ -37,8 +37,8 @@ jobs:
           ACTUAL: ${{ steps.split.outputs._1 }}
         run: |
           echo "actual _1: $ACTUAL"
-          if [ "$ACTUAL" != "b" ]; then
-            echo "FAIL: expected _1 'b', got '$ACTUAL'"
+          if [ "$ACTUAL" != "two" ]; then
+            echo "FAIL: expected 'two', got '$ACTUAL'"
             exit 1
           fi
           echo "PASS"
@@ -47,8 +47,8 @@ jobs:
           ACTUAL: ${{ steps.split.outputs._2 }}
         run: |
           echo "actual _2: $ACTUAL"
-          if [ "$ACTUAL" != "c d e" ]; then
-            echo "FAIL: expected _2 'c d e', got '$ACTUAL'"
+          if [ "$ACTUAL" != "three four five" ]; then
+            echo "FAIL: expected 'three four five' (remainder), got '$ACTUAL'"
             exit 1
           fi
           echo "PASS"

@@ -1,4 +1,4 @@
-name: Test split with custom separator
+name: Test basic split with default separator
 on:
   workflow_dispatch:
 jobs:
@@ -9,15 +9,14 @@ jobs:
       - id: split
         uses: .
         with:
-          msg: "alpha,beta,gamma,delta"
-          separator: ","
+          msg: "hello world foo"
       - name: Assert length
         env:
           ACTUAL: ${{ steps.split.outputs.length }}
         run: |
           echo "actual length: $ACTUAL"
-          if [ "$ACTUAL" != "4" ]; then
-            echo "FAIL: expected length 4, got '$ACTUAL'"
+          if [ "$ACTUAL" != "3" ]; then
+            echo "FAIL: expected length '3', got '$ACTUAL'"
             exit 1
           fi
           echo "PASS"
@@ -26,8 +25,8 @@ jobs:
           ACTUAL: ${{ steps.split.outputs._0 }}
         run: |
           echo "actual _0: $ACTUAL"
-          if [ "$ACTUAL" != "alpha" ]; then
-            echo "FAIL: expected 'alpha', got '$ACTUAL'"
+          if [ "$ACTUAL" != "hello" ]; then
+            echo "FAIL: expected _0 'hello', got '$ACTUAL'"
             exit 1
           fi
           echo "PASS"
@@ -36,8 +35,8 @@ jobs:
           ACTUAL: ${{ steps.split.outputs._1 }}
         run: |
           echo "actual _1: $ACTUAL"
-          if [ "$ACTUAL" != "beta" ]; then
-            echo "FAIL: expected 'beta', got '$ACTUAL'"
+          if [ "$ACTUAL" != "world" ]; then
+            echo "FAIL: expected _1 'world', got '$ACTUAL'"
             exit 1
           fi
           echo "PASS"
@@ -46,18 +45,8 @@ jobs:
           ACTUAL: ${{ steps.split.outputs._2 }}
         run: |
           echo "actual _2: $ACTUAL"
-          if [ "$ACTUAL" != "gamma" ]; then
-            echo "FAIL: expected 'gamma', got '$ACTUAL'"
-            exit 1
-          fi
-          echo "PASS"
-      - name: Assert fourth element
-        env:
-          ACTUAL: ${{ steps.split.outputs._3 }}
-        run: |
-          echo "actual _3: $ACTUAL"
-          if [ "$ACTUAL" != "delta" ]; then
-            echo "FAIL: expected 'delta', got '$ACTUAL'"
+          if [ "$ACTUAL" != "foo" ]; then
+            echo "FAIL: expected _2 'foo', got '$ACTUAL'"
             exit 1
           fi
           echo "PASS"

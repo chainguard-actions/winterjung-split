@@ -11,9 +11,13 @@ def set_action_output(name: str, value: str):
     if not path:
         print_action_error('$GITHUB_OUTPUT env is required.')
         exit(1)
+    # Sanitize newlines to prevent $GITHUB_OUTPUT injection attacks.
+    # An attacker-controlled value containing '\n' or '\r' could inject
+    # additional key=value pairs into the output file.
+    safe_name = name.translate(str.maketrans('', '', '\n\r'))
+    safe_value = value.translate(str.maketrans('', '', '\n\r'))
     with open(path, 'a') as github_output_file:
-        safe_value = value.replace('\r', '').replace('\n', '')
-        github_output_file.write(f'{name}={safe_value}\n')
+        github_output_file.write(f'{safe_name}={safe_value}\n')
 
 
 def print_action_error(msg: str):
